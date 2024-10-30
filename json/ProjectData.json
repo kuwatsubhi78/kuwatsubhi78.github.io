@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Cafe",
+    "description": "Cafe with coffee and tea",
+    "url": "https://github.com/konkretdev/cafe"
+  },
+  {
+    "id": 2,
+    "title": "kopikopi",
+    "description": "Cafe with coffee and tea",
+    "url": "https://github.com/konkretdev/cafe"
+  },
+  {
+    "id": 3,
+    "title": "kopo",
+    "description": "Cafe with coffee and tea",
+    "url": "https://github.com/konkretdev/cafe"
+  }
+]
