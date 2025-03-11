@@ -11,7 +11,18 @@ export default {
     fontFamily: {
       ubuntu: ['Ubuntu', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      animation: {
+        gradient: 'gradientAnimation 7s infinite linear',
+      },
+      keyframes: {
+        gradientAnimation: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+      },
+    },
   },
   plugins: [daisyui, tsh],
   daisyui: {

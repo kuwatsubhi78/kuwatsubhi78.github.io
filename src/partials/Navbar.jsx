@@ -1,13 +1,13 @@
 import { NavLink } from 'react-router-dom';
-import Thememode from './thememode';
+// import Thememode from './thememode';
 
 const Navbar = () => {
   return (
     <div className="navbar bg-base-300 sticky top-0 z-10">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">
+        <a className="btn btn-ghost text-xl  hover:rounded-[8px] transition-all duration-500">
           <span>
-            <img src="foto.jpg" alt="" srcset="" className="w-5 rounded-full" />
+            <img src="foto.jpg" alt="" className="w-5 rounded-full" />
           </span>
           kuwatsubhi
         </a>
@@ -31,7 +31,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <Thememode />
+      {/* <Thememode /> */}
     </div>
   );
 };
