@@ -2,8 +2,10 @@ import { Instagram, Mail, Send, Github } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
+import useScrollNavigate from '../layouts/ScrollNavigate';
 
 const ContactPage = () => {
+  useScrollNavigate();
   const [isHover, setIsHover] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -182,7 +184,13 @@ const ContactPage = () => {
     <>
       <div className="grid grid-cols-2 gap-9">
         <div className="space-y-10">
-          <h1 className="text-5xl font-bold">Kontak</h1>
+          <h1
+            className="text-5xl font-bold bg-gradient-to-r from-red-500 via-blue-500 to-green-500 
+             bg-clip-text text-transparent 
+             animate-gradient [background-size:300%_150%]"
+          >
+            Kontak
+          </h1>
           <div className="flex flex-wrap gap-2">
             {links.map(({ id, href, icon, label }) => (
               <a
