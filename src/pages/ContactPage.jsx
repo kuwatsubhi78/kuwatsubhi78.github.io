@@ -14,21 +14,6 @@ const ContactPage = () => {
     message: '',
   });
   const [timeLeft, setTimeLeft] = useState(0);
-  const [emailError, setEmailError] = useState('');
-
-  // useEffect(() => {
-  //   const loadRecaptcha = () => {
-  //     if (!window.grecaptcha) {
-  //       const script = document.createElement('script');
-  //       script.src = `https://www.google.com/recaptcha/api.js?render=${
-  //         import.meta.env.VITE_RECAPTCHA_SITE_KEY
-  //       }`;
-  //       script.async = true;
-  //       document.body.appendChild(script);
-  //     }
-  //   };
-  //   loadRecaptcha();
-  // }, []);
 
   useEffect(() => {
     const lastSubmit = localStorage.getItem('lastSubmitTime');
@@ -58,10 +43,6 @@ const ContactPage = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-
-    if (e.target.name === 'email') {
-      setEmailError(validateEmail(e.target.value) ? '' : 'Email tidak valid');
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -75,22 +56,17 @@ const ContactPage = () => {
 
     setLoading(true);
     try {
-      // Ambil lokasi pengirim berdasarkan IP
       const lokasi = await fetch('https://ipapi.co/json/');
       const locationData = await lokasi.json();
-
-      // Format lokasi
       const userLocation = `${locationData.city}, ${locationData.region}, ${locationData.country_name}`;
 
-      // Tambahkan waktu & lokasi ke data yang dikirim
       const formDataWithDetails = {
         ...formData,
-        location: userLocation, // Tambahkan lokasi berdasarkan IP
+        location: userLocation,
       };
 
       const response = await axios.post(
         `https://formspree.io/f/meoeyzga`,
-        // formData,
         formDataWithDetails,
         {
           headers: { 'Content-Type': 'application/json' },
@@ -106,7 +82,6 @@ const ContactPage = () => {
         localStorage.setItem('lastSubmitTime', Date.now());
         setTimeLeft(60000);
       } else {
-        console.log(response);
         toast.error('Pesan gagal dikirim');
       }
     } catch (error) {
@@ -115,50 +90,6 @@ const ContactPage = () => {
     }
     setLoading(false);
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   if (!window.grecaptcha) {
-  //     alert('reCAPTCHA not loaded. Please try again.');
-  //     return;
-  //   }
-
-  //   const recaptchaToken = await window.grecaptcha.execute(
-  //     import.meta.env.VITE_RECAPTCHA_SITE_KEY,
-  //     {
-  //       action: 'submit',
-  //     }
-  //   );
-
-  //   try {
-  //     const response = await axios.post(
-  //       import.meta.env.VITE_RECAPTCHA_FORM_API,
-  //       {
-  //         ...formData,
-  //         recaptchaToken,
-  //       }
-  //     );
-
-  //     console.log('Full Response:', response);
-
-  //     if (response && response.data) {
-  //       console.log('Response Data:', response.data);
-  //       toast.success(response.data.message || 'Form submitted successfully!');
-  //     } else {
-  //       throw new Error('Invalid response from server');
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       'Error submitting form:',
-  //       error.response ? error.response.data : error.message
-  //     );
-  //     toast.error(error.response?.data?.error || 'Failed to submit form.');
-  //   }
-
-  //   setLoading(false);
-  // };
 
   const links = [
     {
@@ -180,96 +111,96 @@ const ContactPage = () => {
       label: 'kuwatsubhi78',
     },
   ];
+
   return (
-    <>
-      <div className="grid grid-cols-2 gap-9">
-        <div className="space-y-10">
-          <h1
-            className="text-5xl font-bold bg-gradient-to-r from-red-500 via-blue-500 to-green-500 
-             bg-clip-text text-transparent 
-             animate-gradient [background-size:300%_150%]"
-          >
-            Kontak
-          </h1>
-          <div className="flex flex-wrap gap-2">
-            {links.map(({ id, href, icon, label }) => (
-              <a
-                key={id}
-                href={href}
-                target="_blank"
-                className={`btn rounded-lg px-4 py-2 flex items-center gap-2 transition-all duration-300 
-            ${
-              isHover === id
-                ? 'bg-gradient-to-r from-gray-900 to-gray-400 animate-gradient [background-size:150%_150%]'
-                : 'bg-gray-800'
-            }`}
-                onMouseEnter={() => setIsHover(id)}
-                onMouseLeave={() => setIsHover(null)}
-              >
-                {icon} {label}
-              </a>
-            ))}
-          </div>
-        </div>
-        <div
-          className="card bg-base-200 rounded-lg bg-gradient-to-r 
-            from-gray-900 to-gray-400 
-            animate-gradient [background-size:150%_150%]"
+    <div className="flex flex-col gap-9 md:grid md:grid-cols-2">
+      {/* Bagian Kiri (Teks & Link) */}
+      <div className="space-y-8">
+        <h1
+          className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-red-500 via-blue-500 to-green-500 
+          bg-clip-text text-transparent animate-gradient [background-size:300%_150%]"
         >
-          <form onSubmit={handleSubmit} className="card-body">
-            <h3 className="card-tittle"> Kontak Saya</h3>
-            <div className="py-4 space-y-2">
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="input w-full rounded-lg"
-                placeholder="Nama"
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="input w-full rounded-lg"
-                placeholder="Email"
-                required
-              />
-              <textarea
-                name="message"
-                id=""
-                rows="5"
-                type="text"
-                value={formData.message}
-                onChange={handleChange}
-                className="textarea w-full rounded-lg"
-                placeholder="Pertanyaan dan Masukan"
-                required
-              ></textarea>
-            </div>
-            <div className="card-actions">
-              <button
-                type="submit"
-                disabled={timeLeft > 0 || loading}
-                className="btn btn-primary rounded-lg"
-              >
-                <Send size={20} />
-                <span>
-                  {timeLeft > 0
-                    ? `Tunggu ${Math.ceil(timeLeft / 1000)} detik`
-                    : loading
-                    ? 'Mengirim...'
-                    : 'Kirim'}
-                </span>
-              </button>
-            </div>
-            <Toaster />
-          </form>
+          Kontak
+        </h1>
+        <div className="flex flex-wrap gap-3">
+          {links.map(({ id, href, icon, label }) => (
+            <a
+              key={id}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`btn rounded-lg px-3 py-2 flex items-center gap-2 text-sm md:text-base
+  transition-all duration-300
+  ${
+    isHover === id
+      ? 'bg-gradient-to-r from-gray-900 to-gray-400 animate-gradient [background-size:150%_150%]'
+      : 'bg-gray-800'
+  } flex-wrap`}
+              onMouseEnter={() => setIsHover(id)}
+              onMouseLeave={() => setIsHover(null)}
+            >
+              {icon} {label}
+            </a>
+          ))}
         </div>
       </div>
-    </>
+
+      {/* Bagian Kanan (Form) */}
+      <div
+        className="card bg-base-200 rounded-lg bg-gradient-to-r 
+          from-gray-900 to-gray-400 animate-gradient [background-size:150%_150%] p-4"
+      >
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h3 className="card-title text-lg font-bold">Kontak Saya</h3>
+          <div className="flex flex-col gap-3">
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="input w-full rounded-lg"
+              placeholder="Nama"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="input w-full rounded-lg"
+              placeholder="Email"
+              required
+            />
+            <textarea
+              name="message"
+              rows="4"
+              value={formData.message}
+              onChange={handleChange}
+              className="textarea w-full rounded-lg"
+              placeholder="Pertanyaan dan Masukan"
+              required
+            ></textarea>
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              disabled={timeLeft > 0 || loading}
+              className="btn btn-primary rounded-lg flex items-center gap-2"
+            >
+              <Send size={20} />
+              <span>
+                {timeLeft > 0
+                  ? `Tunggu ${Math.ceil(timeLeft / 1000)} detik`
+                  : loading
+                  ? 'Mengirim...'
+                  : 'Kirim'}
+              </span>
+            </button>
+          </div>
+          <Toaster />
+        </form>
+      </div>
+    </div>
   );
 };
 

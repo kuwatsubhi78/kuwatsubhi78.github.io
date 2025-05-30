@@ -15,6 +15,7 @@ const MainLayouts = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
           transition={{ duration: 0.5 }}
+          style={{ minHeight: '100vh' }}
         >
           <Outlet />
         </motion.div>

@@ -1,44 +1,49 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useScrollNavigate from '../layouts/ScrollNavigate';
-import { delay, easeInOut, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const ProjectPage = () => {
   useScrollNavigate();
-  const [hovered, setHovered] = useState(false);
 
+  const [hoveredId, setHoveredId] = useState(null); // Ganti ke id, biar responsif hanya yang di-hover
   const [datas, setDatas] = useState([]);
+
+  // Fetch data saat mount
   useEffect(() => {
-    fetch('/json/ProjectData.json').then((response) =>
-      response.json().then((data) => setDatas(data))
-    );
+    fetch('/json/ProjectData.json')
+      .then((response) => response.json())
+      .then((data) => setDatas(data));
   }, []);
+
+  // Jika data belum ada, tampilkan loading
   if (datas.length === 0) {
     return <p>Loading...</p>;
   }
 
+  // Fungsi untuk buka URL project
   const openProject = (url) => {
     if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer'); // Buka di tab baru
+      window.open(url, '_blank', 'noopener,noreferrer');
     } else {
       alert('URL tidak tersedia!');
     }
   };
 
+  // Variants animasi container
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.5,
-        ease: easeInOut,
+        staggerChildren: 0.2, // Lebih cepat, agar responsif
       },
     },
   };
 
+  // Variants animasi item
   const itemVariants = {
     hidden: { opacity: 0, y: 50 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeInOut } },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   return (
@@ -57,38 +62,43 @@ const ProjectPage = () => {
         Berikut beberapa project yang saya kerjakan secara individu maupun
         kelompok.
       </p>
+
+      {/* Container grid responsif */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="masonry"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6"
       >
         {datas.map((data) => (
           <motion.div
-            className="card masonry-item bg-base-200 rounded-lg hover:scale-105 transition-all cursor-pointer"
             key={data.id}
             variants={itemVariants}
+            className="relative card bg-base-200 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out overflow-visible"
             onClick={() => openProject(data.url)}
           >
-            <div className="card-body hover:cursor-pointer">
-              <figure className="group relative aspect-video w-full overflow-hidden hover:overflow-visible">
+            <div className="card-body relative overflow-visible">
+              <figure className="relative aspect-video w-full rounded-lg group overflow-visible">
                 <motion.img
                   src={data.images}
                   alt={data.title}
-                  className="w-full rounded-lg object-cover bottom-0"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, rotate: 5, y: -30 }}
-                  // transition={{ type: 'spring', stiffness: 300 }}
+                  className="w-full h-full object-cover rounded-lg transition-transform duration-300"
                   style={{
-                    zIndex: hovered ? 50 : 1,
-                    top: -20,
-                    position: 'absolute',
+                    position: 'absolute', // Biar di atas
+                    top: 0,
+                    left: 0,
+                    zIndex: hoveredId === data.id ? 50 : 1, // Hanya gambar yang di-hover
                   }}
-                  onHoverStart={() => setHovered(true)}
-                  onHoverEnd={() => setHovered(false)}
+                  animate={
+                    hoveredId === data.id
+                      ? { scale: 1.1, rotate: 5, y: -20 }
+                      : { scale: 1, rotate: 0, y: 0 }
+                  }
+                  onMouseEnter={() => setHoveredId(data.id)} // Hover masuk
+                  onMouseLeave={() => setHoveredId(null)} // Hover keluar
                 />
               </figure>
-              <h3 className="card-title">{data.title}</h3>
+              <h3 className="card-title mt-4">{data.title}</h3>
               <p className="text-sm">{data.description}</p>
             </div>
           </motion.div>
