@@ -91,18 +91,16 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Menu mobile di luar navbar utama */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="sm:hidden bg-base-300 p-4 space-y-4"
+            className="fixed left-0 w-full z-50 top-14 sm:hidden bg-base-300 p-4 space-y-4"
           >
             {navItems.map(({ name, to }) => (
               <div key={to} className="relative">
-                <div className="text-sm text-gray-300 mb-1"></div>
                 <NavLink
                   to={to}
                   className="block px-3 py-1 text-white hover:text-blue-600"
@@ -115,8 +113,8 @@ const Navbar = () => {
                   <motion.div
                     layoutId="underline"
                     className="absolute bottom-0 left-0 right-0 h-1 rounded-full
-                      bg-gradient-to-r from-red-500 via-blue-500 to-green-500
-                      animate-gradient [background-size:300%_150%]"
+                bg-gradient-to-r from-red-500 via-blue-500 to-green-500
+                animate-gradient [background-size:300%_150%]"
                     style={{ bottom: '-4px' }}
                   />
                 )}
