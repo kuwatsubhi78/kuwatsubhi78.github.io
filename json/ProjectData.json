@@ -15,9 +15,9 @@
   },
   {
     "id": 3,
-    "images": "https://robohash.org/3",
-    "title": "kopo",
-    "description": "Cafe with coffee and tea",
-    "url": "https://sisfo1.subhiverse.com/"
+    "images": "absen_qr.png",
+    "title": "Form Input Spreadsheet",
+    "description": "Input dan menampilkan data dari spreadsheet",
+    "url": "https://spreadsheet-main-5och3p.laravel.cloud/"
   }
 ]
