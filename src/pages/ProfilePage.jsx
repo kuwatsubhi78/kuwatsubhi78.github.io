@@ -18,10 +18,10 @@ const ProfilePage = () => {
             </span>
           </h1>
           <p className="text-base sm:text-lg">
-            Saya adalah pengembang web dengan keahlian di Node.js, Laravel,
-            MySQL, JWT, serta dokumentasi API menggunakan Swagger. Berpengalaman
-            dalam membangun aplikasi web, dengan fokus pada performa dan
-            efisiensi.
+            Saya adalah mahasiswa Teknik Informatika di Universitas Ngudi
+            Waluyo. Sambil kuliah, saya bekerja di rumah makan, pabrik garmen,
+            dan pabrik alat kesehatan. Pengalaman ini membentuk saya menjadi
+            pribadi yang mandiri, disiplin, dan terbiasa bekerja keras.
           </p>
         </div>
         <div className="flex-none flex justify-center items-center">
@@ -51,11 +51,10 @@ const ProfilePage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}
           >
-            Selain keahlian teknis, saya memiliki pengalaman di industri
-            manufaktur dan pernah terlibat dalam MSIB Kampus Merdeka,
-            berkontribusi pada proyek teknologi untuk pemberdayaan sosial dan
-            wisata di Kepulauan Mentawai. Saya siap berkontribusi dalam proyek
-            inovatif dan berdampak luas.
+            Saya pernah mengikuti program MSIB Batch 7 dan magang dalam
+            pengembangan website sistem informasi kampus. Saya tertarik pada
+            teknologi, khususnya pengembangan aplikasi, dan terus belajar untuk
+            meningkatkan keterampilan saya di bidang ini.
           </motion.p>
         </div>
       </motion.div>
